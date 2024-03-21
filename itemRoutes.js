@@ -24,18 +24,18 @@ router.post('/', function (req, res) {
   if (!addedItem) {
     throw new BadRequestError("Cannot add duplicate item to list.");
   }
-  return res.json({ added: addedItem }).status(201);
+  return res.status(201).json({ added: addedItem });
 });
 
 
 /** Route for getting the item with the specified name. Returns the item with
  * the specified name or throws error */
 router.get('/:name', function (req, res) {
-  const itemName = req.param.name;
+  const itemName = req.params.name;
 
   const item = getItem(itemName);
   if (!item) {
-    throw new BadRequestError("Item with given name does not exist.");
+    throw new NotFoundError("Item with given name does not exist.");
   }
   return res.json(item);
 });
@@ -47,21 +47,21 @@ router.patch('/:name', function (req, res) {
   const itemName = req.params.name;
   const updateData = req.body;
   const updatedItem = updateItem(itemName, updateData);
-
+  console.log(updatedItem);
   if (!updatedItem[0]) {
     if (updatedItem[1] === 1) {
       throw new NotFoundError("Item not found in list.");
     }
     if (updatedItem[1] === 2) {
-      throw new NotFoundError("Cannot add item to the list as it already exists.");
+      throw new BadRequestError("Cannot add item to the list as it already exists.");
     }
   }
-  return res.json({ updated: updatedItem });
+  return res.json({ updated: updatedItem[1] });
 });
 
 /** Route for deleting the item with the specified name */
 router.delete('/:name', function (req, res) {
-  const itemName = req.param.name;
+  const itemName = req.params.name;
   const deletedItem = deleteItem(itemName);
   if (!deletedItem) {
     throw new NotFoundError("Item not found in list to delete.");

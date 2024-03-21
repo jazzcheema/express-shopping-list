@@ -24,18 +24,18 @@ function getItem(name) {
 function updateItem(name, updateData) {
   const item = getItem(name);
   if (!item) {
-    return (false, 1);
+    return [false, 1];
   }
   if (updateData.name) {
     const potentialDupe = getItem(updateData.name);
     if (potentialDupe && potentialDupe !== item) {
-      return (false, 2);
+      return [false, 2];
     }
   }
   for (let attr in updateData) {
     item[attr] = updateData[attr];
   }
-  return (true, item);
+  return [true, item];
 }
 
 /** Takes in a name and deletes the item witht htat name from the database
@@ -46,9 +46,10 @@ function deleteItem(name) {
   if (index === -1) {
     return undefined;
   }
-  return db.splice(index, 1)[0];
+  return items.splice(index, 1)[0];
 }
 
+/** Returns all items */
 function getAllItems() {
   return items;
 }
