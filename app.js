@@ -7,7 +7,7 @@ const { NotFoundError } = require("./expressError");
 const itemRoutes = require('./itemRoutes');
 
 app.use(express.json());
-app.use(express.urlencoded());
+// app.use(express.urlencoded());
 
 
 /** Add item routes */

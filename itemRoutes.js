@@ -47,7 +47,6 @@ router.patch('/:name', function (req, res) {
   const itemName = req.params.name;
   const updateData = req.body;
   const updatedItem = updateItem(itemName, updateData);
-  console.log(updatedItem);
   if (!updatedItem[0]) {
     if (updatedItem[1] === 1) {
       throw new NotFoundError("Item not found in list.");
